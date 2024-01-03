@@ -3,5 +3,10 @@
 # ------------------------------------------------------
 
 type Query {
-  isPizzaGood: Boolean!
+  getRestaurant: Restaurant!
+}
+
+type Restaurant {
+  isGood: Boolean
+  name: String!
 }
