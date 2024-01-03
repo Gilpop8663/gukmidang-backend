@@ -3,7 +3,7 @@
 # ------------------------------------------------------
 
 type Query {
-  getRestaurant: Restaurant!
+  getRestaurant(korean: Boolean!): [Restaurant!]!
 }
 
 type Restaurant {
