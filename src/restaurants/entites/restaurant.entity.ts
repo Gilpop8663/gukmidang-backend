@@ -1,5 +1,11 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { IsBoolean, IsInt, IsString, Length } from 'class-validator';
+import {
+  IsBoolean,
+  IsInt,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @InputType({ isAbstract: true })
@@ -31,8 +37,14 @@ export class Restaurant {
   @IsInt()
   rating: number;
 
-  @Column()
-  @Field(() => Boolean)
+  // 데이터베이스
+  @Column({ default: true })
+  // graphQl
+  @Field(() => Boolean, {
+    defaultValue: true,
+  })
+  //dto
+  @IsOptional()
   @IsBoolean()
-  isOpen: number;
+  isOpen: boolean;
 }

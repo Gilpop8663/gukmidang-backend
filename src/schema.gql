@@ -5,7 +5,7 @@
 input CreateRestaurantDto {
   address: String!
   category: String!
-  isOpen: Boolean!
+  isOpen: Boolean! = true
   name: String!
   rating: Float!
 }
