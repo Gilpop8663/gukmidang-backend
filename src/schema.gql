@@ -2,8 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateRestaurantDto {
+  address: String!
+  category: String!
+  isOpen: Boolean!
+  name: String!
+  rating: Float!
+}
+
 type Mutation {
-  createRestaurant(address: String!, category: String!, isOpen: Boolean!, name: String!, rating: Float!): Boolean!
+  createRestaurant(input: CreateRestaurantDto!): Boolean!
 }
 
 type Query {
