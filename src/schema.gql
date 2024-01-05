@@ -13,6 +13,7 @@ type Query {
 type Restaurant {
   address: String!
   category: String!
+  id: Float!
   isOpen: Boolean!
   name: String!
   rating: Float!
