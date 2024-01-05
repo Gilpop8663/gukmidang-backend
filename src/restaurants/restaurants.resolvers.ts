@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { Restaurant } from './restaurant.entity';
+import { Restaurant } from './entites/restaurant.entity';
 import { CreateRestaurantDto } from './dtos/create-restaurant.dto';
 
 @Resolver(() => Restaurant)
