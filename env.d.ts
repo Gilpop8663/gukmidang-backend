@@ -6,5 +6,6 @@ declare module NodeJS {
     DB_USERNAME: string;
     DB_DATABASE_NAME: string;
     DB_PASSWORD: string;
+    JWT_SECRET_KEY: string;
   }
 }

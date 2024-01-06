@@ -4,11 +4,13 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateAccountInput } from './dtos/create-account.dto';
 import { LoginInput } from './dtos/login.dto';
+import { JwtService } from 'src/jwt/jwt.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly users: Repository<User>,
+    private readonly jwtService: JwtService,
   ) {}
 
   async createAccount({ email, password, role }: CreateAccountInput): Promise<{
@@ -17,7 +19,7 @@ export class UsersService {
   }> {
     const exists = await this.users.findOne({ where: { email } });
 
-    if (!exists) {
+    if (exists) {
       return { ok: false, error: '이미 존재하는 이메일입니다.' };
     }
 
@@ -51,9 +53,11 @@ export class UsersService {
       };
     }
 
+    const token = this.jwtService.sign(user.id);
+
     return {
       ok: true,
-      token: 'asdasds',
+      token,
     };
   }
 }

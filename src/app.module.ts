@@ -10,6 +10,7 @@ import { Restaurant } from './restaurants/entites/restaurant.entity';
 import { UsersModule } from './users/users.module';
 import { CommonModule } from './common/common.module';
 import { User } from './users/entities/user.entity';
+import { JwtModule } from './jwt/jwt.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { User } from './users/entities/user.entity';
         DB_USERNAME: Joi.string(),
         DB_DATABASE_NAME: Joi.string(),
         DB_PASSWORD: Joi.string(),
+        JWT_SECRET_KEY: Joi.string(),
       }),
     }),
     TypeOrmModule.forRoot({
@@ -44,6 +46,9 @@ import { User } from './users/entities/user.entity';
     RestaurantsModule,
     UsersModule,
     CommonModule,
+    JwtModule.forRoot({
+      secretKey: process.env.JWT_SECRET_KEY,
+    }),
   ],
   controllers: [],
   providers: [],

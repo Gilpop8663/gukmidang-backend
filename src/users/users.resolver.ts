@@ -30,7 +30,7 @@ export class UsersResolver {
   @Mutation(() => LoginOutput)
   async login(@Args('input') loginInput: LoginInput) {
     try {
-      return await this.login(loginInput);
+      return await this.usersService.login(loginInput);
     } catch (error) {
       return {
         ok: false,
