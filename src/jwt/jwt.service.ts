@@ -12,4 +12,8 @@ export class JwtService {
   sign(userId: number) {
     return jwt.sign({ id: userId }, this.options.secretKey);
   }
+
+  verify(token: string) {
+    return jwt.verify(token, this.options.secretKey);
+  }
 }

@@ -60,4 +60,12 @@ export class UsersService {
       token,
     };
   }
+
+  async findById(id: number) {
+    return this.users.findOne({
+      where: {
+        id,
+      },
+    });
+  }
 }
