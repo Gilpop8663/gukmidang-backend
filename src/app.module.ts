@@ -7,6 +7,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { Restaurant } from './restaurants/entites/restaurant.entity';
+import { UsersModule } from './users/users.module';
+import { CommonModule } from './common/common.module';
+import { User } from './users/entities/user.entity';
 
 @Module({
   imports: [
@@ -29,7 +32,7 @@ import { Restaurant } from './restaurants/entites/restaurant.entity';
       username: 'postgres',
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE_NAME,
-      entities: [Restaurant],
+      entities: [Restaurant, User],
       logging: true,
       synchronize: process.env.NODE_ENV !== 'prod',
     }),
@@ -39,6 +42,8 @@ import { Restaurant } from './restaurants/entites/restaurant.entity';
       sortSchema: true,
     }),
     RestaurantsModule,
+    UsersModule,
+    CommonModule,
   ],
   controllers: [],
   providers: [],

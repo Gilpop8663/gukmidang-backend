@@ -17,6 +17,7 @@ type Mutation {
 
 type Query {
   getRestaurantList(korean: Boolean!): [Restaurant!]!
+  hi: Boolean!
 }
 
 type Restaurant {
