@@ -2,6 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateAccountInput {
+  email: String!
+  password: String!
+  role: UserRole!
+}
+
+type CreateAccountOutput {
+  error: String
+  ok: Boolean!
+}
+
 input CreateRestaurantDto {
   address: String!
   category: String!
@@ -10,8 +21,21 @@ input CreateRestaurantDto {
   rating: Float!
 }
 
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type LoginOutput {
+  error: String
+  ok: Boolean!
+  token: String
+}
+
 type Mutation {
+  createAccount(input: CreateAccountInput!): CreateAccountOutput!
   createRestaurant(input: CreateRestaurantDto!): Boolean!
+  login(input: LoginInput!): LoginOutput!
   updateRestaurant(input: UpdateRestaurantDto!): Boolean!
 }
 
@@ -40,4 +64,10 @@ input UpdateRestaurantInputType {
   isOpen: Boolean = true
   name: String
   rating: Float
+}
+
+enum UserRole {
+  Client
+  Delivery
+  Owner
 }
