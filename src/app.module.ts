@@ -17,6 +17,7 @@ import { CommonModule } from './common/common.module';
 import { User } from './users/entities/user.entity';
 import { JwtModule } from './jwt/jwt.module';
 import { JwtMiddleware } from './jwt/jwt.middleware';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -35,7 +36,7 @@ import { JwtMiddleware } from './jwt/jwt.middleware';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: '192.168.144.1',
+      host: process.env.DB_HOST,
       port: +process.env.DB_PORT,
       username: 'postgres',
       password: process.env.DB_PASSWORD,
@@ -48,6 +49,7 @@ import { JwtMiddleware } from './jwt/jwt.middleware';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
+      context: ({ req }) => ({ user: req['user'] }),
     }),
     RestaurantsModule,
     UsersModule,
@@ -55,6 +57,7 @@ import { JwtMiddleware } from './jwt/jwt.middleware';
     JwtModule.forRoot({
       secretKey: process.env.JWT_SECRET_KEY,
     }),
+    AuthModule,
   ],
   controllers: [],
   providers: [],

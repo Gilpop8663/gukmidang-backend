@@ -5,6 +5,10 @@ import {
   CreateAccountOutput,
 } from './dtos/create-account.dto';
 import { LoginInput, LoginOutput } from './dtos/login.dto';
+import { User } from './entities/user.entity';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthUser } from 'src/auth/auth-user.decorator';
 
 @Resolver()
 export class UsersResolver {
@@ -37,5 +41,11 @@ export class UsersResolver {
         error: '로그인에 실패했습니다.',
       };
     }
+  }
+
+  @Query(() => User)
+  @UseGuards(AuthGuard)
+  me(@AuthUser() user: User) {
+    return user;
   }
 }
