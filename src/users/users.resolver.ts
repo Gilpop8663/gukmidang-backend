@@ -9,15 +9,12 @@ import { User } from './entities/user.entity';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { AuthUser } from 'src/auth/auth-user.decorator';
+import { UserProfileInput, UserProfileOutput } from './dtos/user-profile.dto';
+import { EditProfileInput, EditProfileOutput } from './dtos/edit-profile.dto';
 
 @Resolver()
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
-
-  @Query(() => Boolean)
-  hi() {
-    return true;
-  }
 
   @Mutation(() => CreateAccountOutput)
   async createAccount(@Args('input') createAccountInput: CreateAccountInput) {
@@ -47,5 +44,38 @@ export class UsersResolver {
   @UseGuards(AuthGuard)
   me(@AuthUser() user: User) {
     return user;
+  }
+
+  @Query(() => UserProfileOutput)
+  @UseGuards(AuthGuard)
+  async userProfile(@Args() userProfileInput: UserProfileInput) {
+    const user = await this.usersService.findById(userProfileInput.userId);
+
+    if (!user) {
+      return {
+        ok: false,
+        error: '유저를 찾지 못했습니다.',
+      };
+    }
+
+    return {
+      ok: true,
+      user,
+    };
+  }
+
+  @Query(() => EditProfileOutput)
+  @UseGuards(AuthGuard)
+  async editProfile(
+    @AuthUser() user: User,
+    @Args('input') editProfileInput: EditProfileInput,
+  ) {
+    try {
+      await this.usersService.editProfile(user.id, editProfileInput);
+
+      return { ok: true };
+    } catch (error) {
+      return { ok: false, error };
+    }
   }
 }
