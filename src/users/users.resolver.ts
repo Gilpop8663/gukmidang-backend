@@ -11,33 +11,20 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { UserProfileInput, UserProfileOutput } from './dtos/user-profile.dto';
 import { EditProfileInput, EditProfileOutput } from './dtos/edit-profile.dto';
+import { VerifyEmailInput, VerifyEmailOutput } from './dtos/verify-email.dto';
 
 @Resolver()
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
   @Mutation(() => CreateAccountOutput)
-  async createAccount(@Args('input') createAccountInput: CreateAccountInput) {
-    try {
-      return await this.usersService.createAccount(createAccountInput);
-    } catch (error) {
-      return {
-        ok: false,
-        error: '아이디 생성에 실패했습니다.',
-      };
-    }
+  createAccount(@Args('input') createAccountInput: CreateAccountInput) {
+    return this.usersService.createAccount(createAccountInput);
   }
 
   @Mutation(() => LoginOutput)
-  async login(@Args('input') loginInput: LoginInput) {
-    try {
-      return await this.usersService.login(loginInput);
-    } catch (error) {
-      return {
-        ok: false,
-        error: '로그인에 실패했습니다.',
-      };
-    }
+  login(@Args('input') loginInput: LoginInput) {
+    return this.usersService.login(loginInput);
   }
 
   @Query(() => User)
@@ -48,34 +35,21 @@ export class UsersResolver {
 
   @Query(() => UserProfileOutput)
   @UseGuards(AuthGuard)
-  async userProfile(@Args() userProfileInput: UserProfileInput) {
-    const user = await this.usersService.findById(userProfileInput.userId);
-
-    if (!user) {
-      return {
-        ok: false,
-        error: '유저를 찾지 못했습니다.',
-      };
-    }
-
-    return {
-      ok: true,
-      user,
-    };
+  userProfile(@Args() userProfileInput: UserProfileInput) {
+    return this.usersService.findById(userProfileInput.userId);
   }
 
   @Query(() => EditProfileOutput)
   @UseGuards(AuthGuard)
-  async editProfile(
+  editProfile(
     @AuthUser() user: User,
     @Args('input') editProfileInput: EditProfileInput,
   ) {
-    try {
-      await this.usersService.editProfile(user.id, editProfileInput);
+    return this.usersService.editProfile(user.id, editProfileInput);
+  }
 
-      return { ok: true };
-    } catch (error) {
-      return { ok: false, error };
-    }
+  @Mutation(() => VerifyEmailOutput)
+  verifyEmail(@Args('input') { code }: VerifyEmailInput) {
+    return this.usersService.verifyEmail(code);
   }
 }

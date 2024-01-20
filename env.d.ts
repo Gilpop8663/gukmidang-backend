@@ -7,5 +7,8 @@ declare module NodeJS {
     DB_DATABASE_NAME: string;
     DB_PASSWORD: string;
     JWT_SECRET_KEY: string;
+    MAILGUN_API_KEY: string;
+    MAILGUN_DOMAIN_NAME: string;
+    MAILGUN_FROM_EMAIL: string;
   }
 }
